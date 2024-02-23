@@ -81,6 +81,17 @@
         }
       }
 
+      // async fetch - option 2
+      const fetchText2 = () => {
+        fetch(url, opt)
+          //.then(response => response.text())        // handle the response and convert to text
+          .then((response) => response.json()) // handle the response and convert to JSON
+          .then((data) => {
+            createTable(data)
+            console.log(data)
+          })
+          .catch((error) => console.log(error)) // handle the error
+      }      
       const createTable = (data) => {
         let { results } = data;
         results = results.slice(0, 10);
