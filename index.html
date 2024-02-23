@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yuval Hilay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+      /* Custom Styles */
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7fafc; /* Default background color */
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+
+      th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #cbd5e0;
+      }
+
+      th {
+        background-color: #2d3748;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #edf2f7;
+      }
+
+      td {
+        color: #2d3748;
+      }
+      
+      /* New background color */
+      .new-background {
+        background-color: #ffcccb; /* Light Coral */
+      }
+    </style>
+    <script>
+      const apiUrl = "https://randomuser.me/api/?results=100"
+      const fetchOptions = {
+        // config for fetch
+        mode: "cors", // cross domain request is allowed
+      }
+
+      $(() => {
+        fetchUsers()
+      })
+
+      const fetchUsers = async () => {
+        try {
+          let response = await fetch(apiUrl, fetchOptions)
+          let data = await response.json()
+          createTable(data)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      const createTable = (data) => {
+        let { results } = data;
+        results = results.slice(0, 10);
+        $.each(results, function(index, person) {
+          let newRowTabel = $('<tr></tr>');
+          newRowTabel.append(`<td>${person.name.first} ${person.name.last}</td>`);
+          newRowTabel.append(`<td>${person.gender}</td>`);
+          newRowTabel.append(`<td>${person.email}</td>`);
+          newRowTabel.append(`<td>${person.location.city}</td>`);
+          newRowTabel.append(`<td>${person.location.state}</td>`);
+          newRowTabel.append(`<td>${person.location.country}</td>`);
+          $('#peopleTable tbody').append(newRowTabel);
+        });
+      }
+    </script>
+  </head>
+  <body class="new-background">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8 mt-3 text-center">318609237 Yuval Hilay- fetch User Data</h2>
+      <div class="table-container">
+        <table id="peopleTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Email</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
